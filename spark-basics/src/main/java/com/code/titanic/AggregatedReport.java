@@ -1,6 +1,5 @@
 package com.code.titanic;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.poi.EncryptedDocumentException;
