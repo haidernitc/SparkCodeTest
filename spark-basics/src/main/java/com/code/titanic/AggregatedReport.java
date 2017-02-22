@@ -1,5 +1,6 @@
 package com.code.titanic;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -41,13 +42,15 @@ public class AggregatedReport {
 		} catch (AnalysisException e) {
 			e.printStackTrace();
 		}
+		
 
 		Dataset<Row> report1 = sparkSession
 				.sql("select Count, CatDetails,Cat from (select sum(Count) as Count,CatDetails,'Passenger Class' as Cat from (select 1 as Count,pclass as catdetails from titanicdata where survived=1)A group by catdetails)A union all  select Count,CatDetails,Cat from (select sum(Count) as Count,CatDetails,'Gender' as Cat from (select 1 as Count,sex as catdetails from titanicdata where survived =1)A  group by catdetails)A union all select Count, CatDetails,Cat from  (select sum(Count) as Count,CatDetails,'AgeBand' as Cat from (select 1 as Count,case when age <=10 then 'Less than 10' when age >10 and age <=18 then 'Teenage' when age >18 and age<=35 then 'Young' when age>35 and age <=50 then 'Middle Age' else 'Elderly' end as catdetails from titanicdata where survived=1)A group by catdetails)A");
-		report1.show();
-
+		//report1.show();
+        report1.coalesce(1).write().format("com.databricks.spark.csv").option("header", "true").save("report1.csv");
 		Dataset<Row> report2 = sparkSession
 				.sql("select count(*) Count,case when split(split(homedest,'//')[0],',')[1] ='' or split(split(homedest,'//')[0],',')[1] = null then 'Unknown' else split(split(homedest,'//')[0],',')[1] end as State from titanicdata where survived=1 group by homedest, 'State' ");
-		report2.show();
+		//report2.show();
+		report2.coalesce(1).write().format("com.databricks.spark.csv").option("header", "true").save("report2.csv");
 	}
 }
