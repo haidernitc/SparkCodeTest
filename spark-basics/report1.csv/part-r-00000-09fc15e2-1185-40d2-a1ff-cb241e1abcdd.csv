@@ -1,0 +1,11 @@
+Count,CatDetails,Cat
+200,1,Passenger Class
+181,3,Passenger Class
+119,2,Passenger Class
+339,female,Gender
+161,male,Gender
+45,Teenage,AgeBand
+89,Middle Age,AgeBand
+205,Young,AgeBand
+111,Elderly,AgeBand
+50,Less than 10,AgeBand
