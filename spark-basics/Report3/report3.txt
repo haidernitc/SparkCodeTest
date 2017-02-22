@@ -1,0 +1,5 @@
+
+
+We have in total 4 dimensions I believe - age group,class,location,gender
+
+So basically read the titles from the names for getting gender and based on ticket price try to identify the location,class then Read sibsp, parch fields to predict survival chances
