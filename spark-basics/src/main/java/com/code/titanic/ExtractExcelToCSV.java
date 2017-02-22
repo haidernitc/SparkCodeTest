@@ -3,6 +3,7 @@ package com.code.titanic;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.RandomAccessFile;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -25,7 +26,6 @@ public class ExtractExcelToCSV {
 		for (int i = 0; i < wb.getNumberOfSheets(); i++) {
 			Sheet sheet = wb.getSheetAt(i);
 			for (Row row : sheet) {
-				// System.out.println(row.getPhysicalNumberOfCells());
 				for (int j = 0; j < 14; j++) {
 					Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
 					if (cell != null) {
@@ -41,14 +41,22 @@ public class ExtractExcelToCSV {
 			}
 
 		}
+		DelLstLine();
 	}
 
-	public static void main(String[] args) throws EncryptedDocumentException,
-			InvalidFormatException {
+	public static void DelLstLine() {
 		try {
-			convertExcelToCsv();
-		} catch (IOException e) {
-			e.printStackTrace();
+			RandomAccessFile raf = new RandomAccessFile("newFile.txt", "rw");
+			long length = raf.length();
+			raf.setLength(length - 16);
+			raf.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
+	/*
+	 * public static void main(String[] args) throws EncryptedDocumentException,
+	 * InvalidFormatException { try { convertExcelToCsv(); } catch (IOException
+	 * e) { e.printStackTrace(); } }
+	 */
 }
